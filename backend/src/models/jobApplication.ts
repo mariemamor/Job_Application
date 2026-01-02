@@ -6,6 +6,9 @@ export interface IJobApplication extends Document {
   status: "applied" | "interviewing" | "rejected" | "accepted";
   appliedAt: Date;
   updatedAt: Date;
+  resume?: string;
+  coverLetter?: string;
+  phone?: string;
 }
 
 const jobApplicationSchema = new Schema<IJobApplication>(
@@ -17,9 +20,12 @@ const jobApplicationSchema = new Schema<IJobApplication>(
       enum: ["applied", "interviewing", "rejected", "accepted"],
       default: "applied",
     },
-    appliedAt: { type: Date, default: Date.now },
+    resume: { type: String },
+    coverLetter: { type: String },
+    phone: { type: String },
   },
   { timestamps: true }
 );
+
 
 export const JobApplication = model<IJobApplication>("JobApplication", jobApplicationSchema);
