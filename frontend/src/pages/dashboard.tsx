@@ -6,12 +6,13 @@ import {
   Drawer,
   List,
   ListItem,
-  ListItemText,
+  ListItemButton,
   Card,
   CardContent,
-  Grid,
   Button,
 } from "@mui/material";
+import Grid from "@mui/material/Grid";
+
 
 const drawerWidth = 240;
 
@@ -37,8 +38,10 @@ const Dashboard: React.FC = () => {
         </Toolbar>
         <List>
           {["Home", "Profile", "Settings", "Logout"].map((text) => (
-            <ListItem button key={text}>
-              <ListItemText primary={text} />
+            <ListItem key={text}>
+              <ListItemButton>
+                {text} 
+              </ListItemButton>
             </ListItem>
           ))}
         </List>
@@ -55,7 +58,6 @@ const Dashboard: React.FC = () => {
         </Typography>
 
         <Grid container spacing={3}>
-          <Grid item xs={12} md={6}>
             <Card>
               <CardContent>
                 <Typography variant="h6">My Applications</Typography>
@@ -67,9 +69,7 @@ const Dashboard: React.FC = () => {
                 </Button>
               </CardContent>
             </Card>
-          </Grid>
 
-          <Grid item xs={12} md={6}>
             <Card>
               <CardContent>
                 <Typography variant="h6">Messages</Typography>
@@ -81,7 +81,6 @@ const Dashboard: React.FC = () => {
                 </Button>
               </CardContent>
             </Card>
-          </Grid>
         </Grid>
       </Box>
     </Box>
