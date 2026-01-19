@@ -204,6 +204,8 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
   const [passwordError, setPasswordError] = React.useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState('');
   const [open, setOpen] = React.useState(false);
+  const [error, setError] = useState("");
+
   const navigate = useNavigate();
 
   const handleClickOpen = () => {
