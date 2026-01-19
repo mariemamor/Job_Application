@@ -39,7 +39,7 @@ jobs:
       # 🔹 Frontend
       - name: Install frontend dependencies
         run: |
-          cd ../frontend
+          cd $GITHUB_WORKSPACE/frontend
           npm install 
 
       - name: Build frontend
