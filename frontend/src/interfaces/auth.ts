@@ -1,11 +1,12 @@
 export interface IUser {
-  _id?: string;
-  firstName?: string;
-  lastName?: string;
+  _id?: string;   // optional
+  firstName: string;
+  lastName: string;
   email: string;
   password: string;
-  role?: "user" | "business" | "admin";
+  role: "user" | "business" | "admin"
 }
+
 
 export interface IAuthResponse {
   status: boolean;

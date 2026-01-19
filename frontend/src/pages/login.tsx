@@ -149,7 +149,7 @@ import { styled } from '@mui/material/styles';
 import ForgotPassword from '../components/ForgotPassword';
 /* import AppTheme from './theme/AppTheme';
 import ColorModeSelect from './theme/ColorModeSelect'; */
-import { GoogleIcon, FacebookIcon, SitemarkIcon } from '../components/CustomIcons';
+import { GoogleIcon, SitemarkIcon } from '../components/CustomIcons';
 import { loginUser } from "../api/auth";
 import { setTokenCookie } from "../api/cookies";
 import type { IAuthResponse } from "../interfaces/auth";
@@ -216,7 +216,6 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
 
   /*   const handleSubmit = async (e: React.FormEvent) => {
       e.preventDefault();
@@ -235,71 +234,70 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
       }
     }; */
 
-/*   const handleSubmit = async (e: React.FormEvent) => {
+  /*   const handleSubmit = async (e: React.FormEvent) => {
+      e.preventDefault();
+      setError("");
+  
+      try {
+        const response: IAuthResponse = await loginUser(email, password);
+  
+        if (response.status) {
+          console.log("Login success:", response);
+  
+          // Save token in cookie safely
+          if (response.token) {
+            setTokenCookie(response.token); // cookie saved
+          }
+  
+          // Redirect to dashboard after successful login
+          // If you use react-router:
+          if (response.user?.role === "user") {
+            navigate("/dashboarduser");
+          } else if (response.user?.role === "business") {
+            navigate("/dashboardbusiness");
+          } else if (response.user?.role === "admin") {
+            navigate("/admindashboard");
+          }
+          else {
+            // Show server error message
+            setError(response.message || "Login failed");
+          }
+        }
+      }
+      catch (err) {
+        console.error(err);
+        setError("Server error. Please try again later.");
+      }
+    }; */
+
+
+  const { setUser } = useAuth();
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
 
     try {
       const response: IAuthResponse = await loginUser(email, password);
 
-      if (response.status) {
-        console.log("Login success:", response);
+      if (response.status && response.user && response.token) {
+        // 1. Save token
+        setTokenCookie(response.token);
 
-        // Save token in cookie safely
-        if (response.token) {
-          setTokenCookie(response.token); // cookie saved
-        }
-
-        // Redirect to dashboard after successful login
-        // If you use react-router:
-        if (response.user?.role === "user") {
-          navigate("/dashboarduser");
-        } else if (response.user?.role === "business") {
-          navigate("/dashboardbusiness");
-        } else if (response.user?.role === "admin") {
-          navigate("/admindashboard");
-        }
-        else {
-          // Show server error message
-          setError(response.message || "Login failed");
-        }
+        // 2. Update context
+        setUser({
+          ...response.user,
+          _id: response.user._id ?? "", // default empty string if undefined
+        });
+        // 3. Redirect based on role
+        if (response.user.role === "user") navigate("/dashboarduser", { replace: true });
+        else if (response.user.role === "business") navigate("/dashboardBusiness", { replace: true });
+        else if (response.user.role === "admin") navigate("/dashboard", { replace: true });
+      } else {
       }
-    }
-    catch (err) {
+    } catch (err) {
       console.error(err);
-      setError("Server error. Please try again later.");
     }
-  }; */
-
-  
-  const { setUser } = useAuth();
-
-const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-  setError("");
-
-  try {
-    const response: IAuthResponse = await loginUser(email, password);
-
-    if (response.status && response.user && response.token) {
-      // 1. Save token
-      setTokenCookie(response.token);
-
-      // 2. Update context
-      setUser(response.user);
-
-      // 3. Redirect based on role
-      if (response.user.role === "user") navigate("/dashboarduser", { replace: true });
-      else if (response.user.role === "business") navigate("/dashboardBusiness", { replace: true });
-      else if (response.user.role === "admin") navigate("/dashboard", { replace: true });
-    } else {
-      setError(response.message || "Login failed");
-    }
-  } catch (err) {
-    console.error(err);
-    setError("Server error. Please try again later.");
-  }
-};
+  };
 
   const validateInputs = () => {
     const email = document.getElementById('email') as HTMLInputElement;

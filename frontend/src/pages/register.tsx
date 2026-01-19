@@ -24,7 +24,6 @@ import { registerUser } from '../api/auth';
 /* ------------------ TYPES ------------------ */
 
 type UIRole = 'jobseeker' | 'recruiter';
-type DBRole = 'user' | 'business';
 
 type RegisterUser = {
   firstName: string;
@@ -69,15 +68,19 @@ const INITIAL_USER: RegisterUser = {
 export default function SignUp() {
   const [user, setUser] = React.useState<RegisterUser>(INITIAL_USER);
   const [error, setError] = React.useState('');
+
 type FrontendRole = 'jobseeker' | 'recruiter';
-type DBRole = 'user' | 'business' | 'admin';
+type DBRole = 'user' | 'business';
 
 const mapRoleToDB = (role: FrontendRole): DBRole => {
-  switch(role) {
+  switch (role) {
     case 'jobseeker':
       return 'user';
     case 'recruiter':
       return 'business';
+    default:
+      // should never happen, but return a valid DBRole to satisfy TypeScript
+      return 'user';
   }
 };
   /* -------- handle inputs -------- */
