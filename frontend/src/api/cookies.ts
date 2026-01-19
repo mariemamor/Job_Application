@@ -1,5 +1,4 @@
 import Cookies from 'js-cookie';
-import { baseUrl} from "./baseUrl";
 
 const COOKIE_DOMAIN = '';
 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Box, TextField, Button, Typography } from "@mui/material";
+import { Box, TextField, Typography } from "@mui/material";
 import JobCard, { Job } from "./jobCard";
 import { baseUrl } from "../../api/baseUrl";
 const ApplyJobForm: React.FC = () => {
